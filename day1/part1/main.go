@@ -14,7 +14,7 @@ func main() {
 }
 
 func sumTheNums() int64 {
-	file, err := os.Open("puzzle_input") // get pointer to the file object
+	file, err := os.Open("../puzzle_input") // get pointer to the file object
 	if err != nil { log.Fatalf("failed to open file: %s", err) }
 	defer file.Close()
 
