@@ -14,6 +14,7 @@ func main() {
 
 func sumTheNums() int64 {
 	file, err := os.Open("../puzzle_input") // get pointer to the file object
+	// 11-20: 
 	// file, err := os.Open("../test_input") // 29, 83, 13, 24, 42, 14, and 76 total is: 281
 	if err != nil {
 		log.Fatalf("failed to open file: %s", err)
@@ -49,7 +50,7 @@ func findDigits(line string) (int, int) {
                 firstDigit = digit
             }
             lastDigit = digit
-            currentWord = "" // Clear current word as we found a digit
+            currentWord = ""
         } else {
 			currentWord += string(char)
 			for i, _ := range words {
@@ -62,7 +63,7 @@ func findDigits(line string) (int, int) {
                     firstDigit = val
                 }
                 lastDigit = val
-				currentWord = ""
+				currentWord = currentWord[1:]
             }
         }
 		
