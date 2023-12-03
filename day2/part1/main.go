@@ -28,7 +28,6 @@ func calcTotal() int {
 		gameTitle := games[0]
 		gameTries := games[1]
 		isVald := true
-		// fmt.Println(games[0]," ******** ", gameTries)
 		tries := strings.Split(gameTries, ";")
 		for _, val := range tries {
 			opit := strings.Split(val, ", ")
@@ -45,7 +44,7 @@ func calcTotal() int {
 			fmt.Println("-- game num --", bla)
 			blabal, _ := strconv.Atoi(bla)
 			fmt.Printf("type of strnum is: %T\n", blabal)
-			total += blabal // calc the games[0].split at " " part [1]
+			total += blabal
 		}
 	}
 	return total
