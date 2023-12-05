@@ -49,13 +49,6 @@ func calculateCard(line string) int {
 	return points
 }
 
-func contains(slice []string, str string) bool {
-	for _, v := range slice {
-		if v == str { return true }
-	}
-	return false
-}
-
 /*
 When you range over a string in Go, you get individual bytes (runes), not words or numbers separated
  by spaces. Since numbers[0] is a string, for _, num := range numbers[0] iterates over each character
