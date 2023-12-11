@@ -45,7 +45,6 @@ func calculateCard(line string) int {
 			}
 		}
 	}
-	fmt.Println("--------------------------------------")
 	return points
 }
 

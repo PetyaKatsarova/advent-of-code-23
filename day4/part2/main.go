@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+	// file, err := os.Open("../puzzle_input")
 	file, err := os.Open("../test_input")
 	if err != nil {
 		log.Fatalf("failed to open file: %s", err)
@@ -39,9 +40,9 @@ func processCards(cards []string) int {
 
 		_, wins := calculateCard(card)
 		cardIndex, _ := strconv.Atoi(strings.Fields(strings.Split(card, ":")[0])[1])
-		for i := 1; i <= wins; i++ {
-			if cardIndex+i-1 < len(cards) {
-				queue = append(queue, cards[cardIndex+i-1])
+		for i := 0; i < wins; i++ {
+			if cardIndex + i < len(cards) {
+				queue = append(queue, cards[cardIndex + i])
 			}
 		}
 	}
