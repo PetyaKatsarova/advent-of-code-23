@@ -42,7 +42,7 @@ func createMap(data []string) map[string][]Mapping {
         } else if currKey != "" {
             parts := strings.Fields(val) // fields splits on " "
             if len(parts) == 3 {
-                destStart, _ := strconv.ParseInt(parts[0], 10, 64)
+                destStart, _ := strconv.ParseInt(parts[0], 10, 64) //Atoi converts to int!
                 sourceStart, _ := strconv.ParseInt(parts[1], 10, 64)
                 length, _ := strconv.ParseInt(parts[2], 10, 64)
                 result[currKey] = append(result[currKey], Mapping{DestStart: destStart, SourceStart: sourceStart, Length: length})
