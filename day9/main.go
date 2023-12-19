@@ -3,17 +3,17 @@ package main
 // learning from: https://github.com/OscarBrugne/AdventOfCode
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"strconv"
 	"strings"
 	"time"
+	"fmt"
+
+	"main.go/utils"
 )
 
 func main() {
 	fileName := "../puzzle_input"
-	input := ReadFile(fileName) // returns []str
+	input := utils.ReadFile(fileName) // returns []str
 
 	start1 := time.Now()
 	fmt.Println("Answer 1 : ", Part1(input))
@@ -22,20 +22,6 @@ func main() {
 	start2 := time.Now()
 	fmt.Println("Answer 2 : ", Part2(input))
 	fmt.Println(time.Since(start2))
-}
-
-func ReadFile(fileName string) []string {
-	file, err := os.Open(fileName)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	var lines []string
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	return lines
 }
 
 func Part1(input []string) int {
