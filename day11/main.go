@@ -145,6 +145,23 @@ func Part1(input []string) int {
 
 	return res
 }
+
+func Part2(input []string) int {
+	grid 			:= buildGrid(input, Empty)
+	expandedGrid	:= expandGrid(grid, 1000000)
+	res				:= 0
+	visited			:= map[Coord]struct{}{}
+
+	for coord1	:= range expandedGrid.Data { // loop through galaxies
+		for corrd2 := range visited {
+			length := calculateLength(expandedGrid, coord1, corrd2) // calc len of curr and visited
+			res += length
+		}
+		visited[coord1] = struct{}{} // look at explanation bellow
+	}
+
+	return res
+}
 /*
 !! NB:
 visited is a map where the keys (Coord values) represent the galaxies that have been visited.
@@ -165,4 +182,8 @@ func main() {
 	start1 := time.Now()
 	fmt.Println("Answer 1 : ", Part1(input))
 	fmt.Println(time.Since(start1))
+
+	start2 := time.Now()
+	fmt.Println("Answer 2 : ", Part2(input))
+	fmt.Println(time.Since(start2))
 }
