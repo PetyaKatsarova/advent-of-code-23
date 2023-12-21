@@ -64,47 +64,105 @@ func convStrToInt(valuePair string) int {
 	xStr = strings.TrimSpace(xStr)
 	// fmt.Println(len(xStr), ": ", xStr)
 	x, err := strconv.Atoi(xStr)
-	if err != nil {	panic(err) }
+	if err != nil {
+		panic(err)
+	}
 	return x
 }
 
-// loop through flow lines, start from in and follow the flow instructions with switch
-// returns A,R or? 
-func followTheFlow(line []string, part Part) string {
-	res := "L"
-	for { // loop continuously till the result is A or R
-		for _, val := range line {
-			//need letters b4 {}, split on , follow instructions
-			sth := strings.Split(val, "{")
-			letters := sth[0]
-			fmt.Println(letters)
-		}
-		if res == "A"
+// loop through all flow lines, start from in and follow the flow instructions with switch, checks for 1 part
+// returns A,R for a part
+func followTheFlow(lines []string, part Part) string {
+	mapWorkFlow := map[string]string{} // {px: "a<2006:qkq,m>2090:A,rfg"} easy to work with
+
+	for _, line := range lines {
+		splittedLine	:= strings.Split(line, "{")
+		key				:= splittedLine[0]
+		val				:= splittedLine[1]
+		val = strings.Trim(val, "}")
+		mapWorkFlow[key] = val
 	}
-	return res
+
+	nextLetters := processFlowLine("in", mapWorkFlow["in"], part)
+	for nextLetters != "A" && nextLetters != "R" {
+		nextLetters = processFlowLine(nextLetters, mapWorkFlow[nextLetters], part)
+	}
+
+	return nextLetters // should return only A || R
 }
 
-// takes workflow []string from a line and returns 
-// check beginning letters, follow inside the logic, return the result: R, A or?
-func destructureFlowLine(flowLine []string) () {
+// returns next letters, R or A
+func processFlowLine(nextLetters, line string, partStruct Part) string{
+	// nextLetters = in, line = mapWorkFlow[nextLetters] = s<1351:px,qqz
+	fmt.Println("line from processflowline", line)
+	steps := strings.Split(line, ",")
 
+	for _, val := range steps {
+		if strings.Contains(val, ":") {
+			splitVal := strings.Split(val, ":") // splitVal[0] = s<1351, splV[1] = px
+			comparissonPair := splitVal[0]
+			nextLetters		:= splitVal[1]
+			partLetter		:= comparissonPair[:1] // only the first char s<1351
+			sign			:= comparissonPair[1:2] // second char
+		    numToCompare,err:= strconv.Atoi(string(comparissonPair[2:]))
+			if err != nil { panic(err)}
+			partValue		:= getLetterVal(partStruct, partLetter)
+			if sign == "<" {
+				if partValue < numToCompare {
+					return nextLetters
+				} else {
+					continue
+				}
+			} else if sign == ">" {
+				if partValue > numToCompare {
+					return nextLetters
+				} else {
+					continue
+				}
+			}
+		} else {
+			return val
+		}
+	}
+	return "WTF"
 }
 
-func Part1(input []string) string {
-	flow, parts := getWorkflowAndParts(input) // returns slices of strings 
+// return the int val of the corresponding Part field
+func getLetterVal(part Part, partLetter string) int {
+	partLetter = strings.ToUpper(partLetter)
+	switch partLetter {
+	case "X":
+		return part.X //
+	case "M":
+		return part.M
+	case "A":
+		return part.A
+	case "S":
+		return part.S
+	default:
+		return -1
+	}
+}
+
+func Part1(input []string) int {
+	flow, parts := getWorkflowAndParts(input) // returns slices of strings
 	var letter string
+	sumResult := 0
 
 	for _, part := range parts {
-		structPart := getPartsVals(part)
-		letter = followTheFlow(flow,structPart)
-		fmt.Println("part1: ", structPart.A)
+		structPart := getPartsVals(part) // returns Part
+		letter = followTheFlow(flow, structPart) // 
+		if letter == "A" {
+			sumResult += structPart.X + structPart.M + structPart.A + structPart.S
+		}
+		fmt.Println("part1: ", letter)
 	}
-	fmt.Println("flow: ",flow)
-	return letter
+	// fmt.Println("flow: ",flow)
+	return sumResult
 }
 
 func main() {
-	input := utils.ReadFile("test_input")
+	input := utils.ReadFile("puzzle_input")
 
 	start := time.Now()
 	fmt.Println("result is: ", Part1(input))
