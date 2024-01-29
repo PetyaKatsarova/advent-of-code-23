@@ -42,7 +42,7 @@ func (grid Grid) getEmptyCols() []int {
 	emptyCols := []int{}
 	for x:= 0; x < grid.Width; x++ { // nested slices length
 		isEmpty := true
-		y :=0
+		y := 0
 		for y < grid.Height { // first slice
 			if _, ok := grid.Data[Coord{x,y}]; ok {
 				isEmpty = false
